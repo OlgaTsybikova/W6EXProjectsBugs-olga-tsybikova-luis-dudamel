@@ -15,7 +15,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadProjectsThunk());
+    dispatch(loadProjectsThunk(dispatch));
   }, [dispatch]);
 
   return (

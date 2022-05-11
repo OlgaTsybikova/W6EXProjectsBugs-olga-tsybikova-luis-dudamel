@@ -2,10 +2,8 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  addProjectActionCreator,
-  updateProjectActionCreator,
-} from "../../redux/features/projects/projectsSlice";
+import { updateProjectActionCreator } from "../../redux/features/projects/projectsSlice";
+import { addProjectThunk } from "../../redux/thunks/projectsThunks";
 
 const FormProject = ({ id }) => {
   const dispatch = useDispatch();
@@ -35,11 +33,10 @@ const FormProject = ({ id }) => {
       dispatch(updateProjectActionCreator({ ...project.current, name }));
     } else {
       const newProject = {
-        id: 1000,
         name,
       };
 
-      dispatch(addProjectActionCreator(newProject));
+      dispatch(addProjectThunk(newProject));
     }
 
     navigate("/projects");

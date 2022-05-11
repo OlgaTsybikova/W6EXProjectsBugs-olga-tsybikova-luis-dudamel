@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  addProjectActionCreator,
   loadProjectsActionCreator,
   removeProjectActionCreator,
 } from "../features/projects/projectsSlice";
@@ -37,6 +38,29 @@ export const deleteProjectThunk = (id) => async (dispatch) => {
       dispatch(removeProjectActionCreator(id));
       dispatch(setErrorOffActionCreator());
       dispatch(openModalActionCreator("S'ha esborrat l'item del llistat"));
+    }
+  } catch {
+    dispatch(setErrorOnActionCreator());
+    dispatch(openModalActionCreator("Tot malament"));
+  } finally {
+    dispatch(setLoadingOffActionCreator());
+  }
+};
+
+export const addProjectThunk = (newProject) => async (dispatch) => {
+  dispatch(setLoadingOnActionCreator());
+
+  try {
+    const apiResponse = await axios.post(
+      process.env.REACT_APP_API_URL,
+      newProject
+    );
+    if (apiResponse.status === 201) {
+      const newProjectId = apiResponse.data.id;
+      const newProjectToDispatch = { ...newProject, id: newProjectId };
+      dispatch(addProjectActionCreator(newProjectToDispatch));
+      dispatch(setErrorOffActionCreator());
+      dispatch(openModalActionCreator("S'ha agregat l'item del llistat"));
     }
   } catch {
     dispatch(setErrorOnActionCreator());
