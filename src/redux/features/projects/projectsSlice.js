@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const projectsSlice = createSlice({
   name: "projects",
-  initialState: { projects: [] },
+  initialState: [],
   reducers: {
     loadProjects: (projects, action) => [...action.payload],
     addProject: (projects, action) => [...projects, action.payload],
